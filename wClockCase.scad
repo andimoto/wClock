@@ -1,5 +1,5 @@
 caseThickness=2; //mm
-chamberElementSize=12; //mm
+chamberElementSize=10; //mm
 chamberElementsX=11;
 chamberElementsY=10;
 caseSizeX=caseThickness+
