@@ -1,23 +1,24 @@
-caseThickness=2; //mm
+$fn=50;
+borderThickness=2; //mm
 chamberElementSize=10; //mm
 chamberElementsX=11;
 chamberElementsY=10;
-caseSizeX=caseThickness+
-    (chamberElementSize+caseThickness)*chamberElementsX;
-caseSizeY=caseThickness+
-    (chamberElementSize+caseThickness)*chamberElementsY;
+caseSizeX=borderThickness+
+    (chamberElementSize+borderThickness)*chamberElementsX;
+caseSizeY=borderThickness+
+    (chamberElementSize+borderThickness)*chamberElementsY;
 difference() {
     #cube([caseSizeX,caseSizeY,10]);
     for(x=[0:chamberElementsX-1],
         y=[0:chamberElementsY-1]){
-    translate([(x*(chamberElementSize+caseThickness)),
-        (y*(chamberElementSize+caseThickness))]){
-    translate([caseThickness,caseThickness,caseThickness])
+    translate([(x*(chamberElementSize+borderThickness)),
+        (y*(chamberElementSize+borderThickness))]){
+    translate([borderThickness,borderThickness,borderThickness])
         cube([chamberElementSize,
             chamberElementSize,
-            chamberElementSize+1-caseThickness]);
-            translate([chamberElementSize/3+caseThickness,
-            chamberElementSize/3+caseThickness])
+            chamberElementSize+1-borderThickness]);
+            translate([chamberElementSize/3+borderThickness,
+            chamberElementSize/3+borderThickness])
             cylinder(r=1.5, h=5, center=true);
     }}
 
