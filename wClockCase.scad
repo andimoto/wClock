@@ -2,36 +2,46 @@
 grafixComp=1; //mm ; add 1 millimeter
 
 /* Variables */
-absoluteLength=160; //mm
+absoluteLengthX=160; //mm
+absoluteLengthY=160; //mm
+caseHight=10; //mm
 borderThickness=2; //mm
 bottomThickness=2; //mm ; keep this. It's enougth
+cableHole=true; // with cable holes
 rCableHole=2; //mm
 hCableHole=bottomThickness+grafixComp;
-chamberElementsX=11+2; //letters in x direction + 1 second light on each side
-chamberElementsY=10+2; //letters in y direction + 1 second light on each side
-caseHight=10; //mm
+chamberElementsX=13; //letters in x direction + 1 second light on each side
+chamberElementsY=12; //letters in y direction + 1 second light on each side
+chambElemetsForSize = chamberElementsX; // default calculation with chamberElementsX
+
 /* should be higher due to see
 the cubes over the case surface */
 cubeHight=caseHight-bottomThickness+grafixComp;
 
 
-chamberSize = ((absoluteLength - borderThickness) /
-    (chamberElementsX)) - borderThickness;
+chamberSize = ((absoluteLengthX - borderThickness) /
+    (chambElemetsForSize)) - borderThickness;
 echo("Cutout Cube Size:",chamberSize,"mm");
-
+echo("Cutout Cubes:",chambElemetsForSize);
 /* because elements in X & Y direction are not equal,
    all cutout cubes have to be shifted into the middle */
-borderShiftY= (absoluteLength -
+borderShiftX= (absoluteLengthX -
+       ((chamberSize+borderThickness)
+       *chamberElementsX) - borderThickness)/2;
+
+borderShiftY= (absoluteLengthY -
         ((chamberSize+borderThickness)
         *chamberElementsY) - borderThickness)/2;
 
+echo("Shift in X Direction: ",borderShiftX);
 echo("Shift in Y Direction: ",borderShiftY);
 
 
 /* Model: case which should hold leds in chambers */
 difference() {
-    #cube([absoluteLength,absoluteLength,caseHight]);
-    translate([0,borderShiftY,0]){
+    #cube([absoluteLengthX,absoluteLengthY,caseHight]);
+    /* shift cutout cubes into middle */
+    translate([borderShiftX,borderShiftY,0]){
     for(x=[0:chamberElementsX-1],
         y=[0:chamberElementsY-1]){
         translate([(x*(chamberSize+borderThickness)),
@@ -42,10 +52,12 @@ difference() {
                 chamberSize,
                 cubeHight]);
 
-            /* cable holes */
-            translate([chamberSize/3+borderThickness,
-            chamberSize/2+borderThickness,bottomThickness/2])
-            cylinder(r=rCableHole, h=hCableHole, center=true);
+            if(cableHole){
+                /* cable holes */
+                translate([chamberSize/3+borderThickness,
+                chamberSize/2+borderThickness,bottomThickness/2])
+                cylinder(r=rCableHole, h=hCableHole, center=true);
+            }
         }
     }
     }
