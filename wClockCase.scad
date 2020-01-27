@@ -2,16 +2,16 @@
 grafixComp=1; //mm ; add 1 millimeter
 
 /* Variables */
-absoluteLengthX=160; //mm
-absoluteLengthY=160; //mm
+absoluteLengthX=180; //mm
+absoluteLengthY=180; //mm
 caseHight=10; //mm
 borderThickness=2; //mm
 bottomThickness=2; //mm ; keep this. It's enougth
 cableHole=true; // with cable holes
 rCableHole=2; //mm
 hCableHole=bottomThickness+grafixComp;
-chamberElementsX=13; //letters in x direction + 1 second light on each side
-chamberElementsY=12; //letters in y direction + 1 second light on each side
+chamberElementsX=11; //letters in x direction + 1 second light on each side
+chamberElementsY=10; //letters in y direction + 1 second light on each side
 chambElemetsForSize = chamberElementsX; // default calculation with chamberElementsX
 
 /* should be higher due to see
