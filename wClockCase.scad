@@ -4,33 +4,43 @@ grafixComp=1; //mm ; add 1 millimeter
 /* Variables */
 absoluteLengthX=180; //mm
 absoluteLengthY=180; //mm
+additionalBorder=false;  /* enable passepartout */
+additionalBorderLength=10; //mm /* passepartout */
+ccubeSize = 15; //mm /* size of the cube elements */
 caseHight=10; //mm
 borderThickness=2; //mm
 bottomThickness=2; //mm ; keep this. It's enougth
 cableHole=true; // with cable holes
 rCableHole=2; //mm
 hCableHole=bottomThickness+grafixComp;
-chamberElementsX=11; //letters in x direction + 1 second light on each side
-chamberElementsY=10; //letters in y direction + 1 second light on each side
-chambElemetsForSize = chamberElementsX; // default calculation with chamberElementsX
+chamberElementsX=11; //letters in x direction
+chamberElementsY=10; //letters in y direction
 
 /* should be higher due to see
 the cubes over the case surface */
 cubeHight=caseHight-bottomThickness+grafixComp;
 
+/* calculate longest side of case
+to get a square case with similar lengths */
+caseSizeMin = (chamberElementsX < chamberElementsY) ?
+    ((chamberElementsY *
+        (ccubeSize + borderThickness)) + borderThickness) :
+    ((chamberElementsX *
+        (ccubeSize + borderThickness)) + borderThickness);
+echo("Total Case Size:",caseSizeMin,"mm");
 
-chamberSize = ((absoluteLengthX - borderThickness) /
-    (chambElemetsForSize)) - borderThickness;
-echo("Cutout Cube Size:",chamberSize,"mm");
-echo("Cutout Cubes:",chambElemetsForSize);
+
+caseSize= (additionalBorder) ? (caseSizeMin+additionalBorderLength):caseSizeMin;
+
+
 /* because elements in X & Y direction are not equal,
    all cutout cubes have to be shifted into the middle */
-borderShiftX= (absoluteLengthX -
-       ((chamberSize+borderThickness)
+borderShiftX= (caseSize -
+       ((ccubeSize+borderThickness)
        *chamberElementsX) - borderThickness)/2;
 
-borderShiftY= (absoluteLengthY -
-        ((chamberSize+borderThickness)
+borderShiftY= (caseSize -
+        ((ccubeSize+borderThickness)
         *chamberElementsY) - borderThickness)/2;
 
 echo("Shift in X Direction: ",borderShiftX);
@@ -39,23 +49,23 @@ echo("Shift in Y Direction: ",borderShiftY);
 
 /* Model: case which should hold leds in chambers */
 difference() {
-    #cube([absoluteLengthX,absoluteLengthY,caseHight]);
+    #cube([caseSize,caseSize,caseHight]);
     /* shift cutout cubes into middle */
     translate([borderShiftX,borderShiftY,0]){
     for(x=[0:chamberElementsX-1],
         y=[0:chamberElementsY-1]){
-        translate([(x*(chamberSize+borderThickness)),
-            (y*(chamberSize+borderThickness))]){
-            /* cutout cubes */
+        translate([(x*(ccubeSize+borderThickness)),
+            (y*(ccubeSize+borderThickness))]){
+            /* generate cutout cubes */
             translate([borderThickness,borderThickness,bottomThickness])
-            cube([chamberSize,
-                chamberSize,
+            cube([ccubeSize,
+                ccubeSize,
                 cubeHight]);
 
             if(cableHole){
-                /* cable holes */
-                translate([chamberSize/3+borderThickness,
-                chamberSize/2+borderThickness,bottomThickness/2])
+                /* generate cable holes */
+                translate([ccubeSize/3+borderThickness,
+                ccubeSize/2+borderThickness,bottomThickness/2])
                 cylinder(r=rCableHole, h=hCableHole, center=true);
             }
         }
