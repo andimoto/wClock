@@ -1,2 +1,3 @@
 ![scalable wClock](wClockCase.png)
-![scalable wClock](wClockCase2.png)
+<br>
+![scalable wClock2](wClockCase2.png)
