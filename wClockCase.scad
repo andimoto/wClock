@@ -1,3 +1,5 @@
+$fn=30;
+
 /* debug variables */
 grafixComp=1; //mm ; add 1 millimeter
 
@@ -15,89 +17,110 @@ absoluteLengthX=170; //mm
 absoluteLengthY=170; //mm
 
 cableHole=true; // with cable holes
-rCableHole=2; //mm
-hCableHole=bottomThickness+grafixComp;
+dCableHole=2; //mm
+
 
 /* Passepartout */
 additionalBorder=false;  /* enable passepartout */
 additionalBorderLength=10; //mm /* passepartout */
 
+module wClockCase(chamberElementsX=10, chamberElementsY=10,
+        ccubeSize=10, squareShape=true,
+        caseHight=10, borderThickness=2, bottomThickness=2,
+        useAbsLength=false, absoluteLengthX=180, absoluteLengthY=180,
+        cableHole=true, longHole=true, dCableHole=2,
+        additionalBorder=false, additionalBorderLength=10){
 
-/* should be higher due to see
-the cubes over the case surface */
-cubeHight = caseHight - bottomThickness + grafixComp;
+    hCableHole=bottomThickness+grafixComp;
 
-/* calculate longest side of case
-to get a square case with similar lengths */
-caseSizeMax = (chamberElementsX < chamberElementsY) ?
-    ((chamberElementsY *
-        (ccubeSize + borderThickness)) + borderThickness) :
-    ((chamberElementsX *
+    /* should be higher due to see
+    the cubes over the case surface */
+    cubeHight = caseHight - bottomThickness + grafixComp;
+
+    /* calculate longest side of case
+    to get a square case with similar lengths */
+    caseSizeMax = (chamberElementsX < chamberElementsY) ?
+        ((chamberElementsY *
+            (ccubeSize + borderThickness)) + borderThickness) :
+        ((chamberElementsX *
+            (ccubeSize + borderThickness)) + borderThickness);
+    echo("Max Case Size from Cubes:",caseSizeMax,"mm");
+
+    minCaseSizeX = ((chamberElementsX *
         (ccubeSize + borderThickness)) + borderThickness);
-echo("Max Case Size from Cubes:",caseSizeMax,"mm");
+    minCaseSizeY = ((chamberElementsY *
+        (ccubeSize + borderThickness)) + borderThickness);
 
-minCaseSizeX = ((chamberElementsX *
-    (ccubeSize + borderThickness)) + borderThickness);
-minCaseSizeY = ((chamberElementsY *
-    (ccubeSize + borderThickness)) + borderThickness);
+    caseSizeX = (squareShape) ? caseSizeMax : minCaseSizeX;
+    caseSizeY = (squareShape) ? caseSizeMax : minCaseSizeY;
+    echo("x & y Case Size:",caseSizeX, "x",caseSizeY,"mm");
 
-caseSizeX = (squareShape) ? caseSizeMax : minCaseSizeX;
-caseSizeY = (squareShape) ? caseSizeMax : minCaseSizeY;
-echo("x & y Case Size:",caseSizeX, "x",caseSizeY,"mm");
+    /* calculate Case Size with passepartout */
+    addBorderX = (additionalBorder) ? additionalBorderLength*2 : 0;
+    addBorderY = (additionalBorder) ? additionalBorderLength*2 : 0;
+    echo("Add in X Direction: ",addX);
+    echo("Add in Y Direction: ",addY);
 
-/* calculate Case Size with passepartout */
-addBorderX = (additionalBorder) ? additionalBorderLength*2 : 0;
-addBorderY = (additionalBorder) ? additionalBorderLength*2 : 0;
-echo("Add in X Direction: ",addX);
-echo("Add in Y Direction: ",addY);
+    /* case should be absolute size if
+    it does not exeed and is enabled */
+    addTotalX = (caseSizeX > absoluteLengthX) ? 0 :
+        (absoluteLengthX - caseSizeX);
+    addTotalY = (caseSizeY > absoluteLengthY) ? 0 :
+        (absoluteLengthY - caseSizeY);
 
-/* case should be absolute size if it does not exeed and is enabled */
-addTotalX = (caseSizeX > absoluteLengthX) ? 0 :
-    (absoluteLengthX - caseSizeX);
-addTotalY = (caseSizeY > absoluteLengthY) ? 0 :
-    (absoluteLengthY - caseSizeY);
+    addX = (useAbsLength) ? (addBorderX + addTotalX) : addBorderX;
+    addY = (useAbsLength) ? (addBorderY + addTotalY) : addBorderY;
 
-addX = (useAbsLength) ? (addBorderX + addTotalX) : addBorderX;
-addY = (useAbsLength) ? (addBorderY + addTotalY) : addBorderY;
+    /* when elements in X & Y direction are not equal,
+    all cutout cubes have to be shifted into the middle
+    from each direction */
+    borderShiftX= (caseSizeX -
+        ((ccubeSize+borderThickness)
+        * chamberElementsX) - borderThickness)/2
+        + addX/2;
 
-/* when elements in X & Y direction are not equal,
-   all cutout cubes have to be shifted into the middle
-   from each direction */
-borderShiftX= (caseSizeX -
-       ((ccubeSize+borderThickness)
-       * chamberElementsX) - borderThickness)/2
-       + addX/2;
-
-borderShiftY= (caseSizeY -
+    borderShiftY= (caseSizeY -
         ((ccubeSize+borderThickness)
         * chamberElementsY) - borderThickness)/2
-       + addY/2;
+        + addY/2;
 
-echo("Shift in X Direction: ",borderShiftX);
-echo("Shift in Y Direction: ",borderShiftY);
+    echo("Shift in X Direction: ",borderShiftX);
+    echo("Shift in Y Direction: ",borderShiftY);
 
-/* Model: case which should hold leds in chambers */
-difference() {
-    cube([caseSizeX+addX,caseSizeY+addY,caseHight]);
-    /* shift cutout cubes into middle */
-    translate([borderShiftX,borderShiftY,0]){
-    for(x=[0:chamberElementsX-1],
-        y=[0:chamberElementsY-1]){
-        translate([(x*(ccubeSize+borderThickness)),
-            (y*(ccubeSize+borderThickness))]){
-            /* generate cutout cubes */
-            translate([borderThickness,borderThickness,bottomThickness])
-            cube([ccubeSize,
-                ccubeSize,
-                cubeHight]);
+    /* Model: case which should hold leds in chambers */
+    difference() {
+        cube([caseSizeX+addX,caseSizeY+addY,caseHight]);
+        /* shift cutout cubes into middle */
+        translate([borderShiftX,borderShiftY,0]){
+            for(x=[0:chamberElementsX-1],
+                y=[0:chamberElementsY-1]){
+                translate([(x*(ccubeSize+borderThickness)),
+                    (y*(ccubeSize+borderThickness))]){
+                    /* generate cutout cubes */
+                    translate([borderThickness,
+                        borderThickness,
+                        bottomThickness])
+                    cube([ccubeSize,
+                        ccubeSize,
+                        cubeHight]);
 
-            if(cableHole){
-                /* generate cable holes */
-                translate([ccubeSize/3+borderThickness,
-                ccubeSize/2+borderThickness,bottomThickness/2])
-                cylinder(r=rCableHole, h=hCableHole, center=true);
-            }
-        }
-    }
-    }
-}
+                    if(cableHole && !longHole){  /* generate cable holes */
+                        translate([ccubeSize+borderThickness/2,
+                            ccubeSize-borderThickness-borderThickness/2,
+                            bottomThickness/2])
+                        cube([dCableHole,dCableHole,hCableHole],center=true);
+                    } /* generate small cable holes */
+                    if(cableHole && longHole){
+                        translate([borderThickness+dCableHole/2,
+                            borderThickness+ccubeSize/2,
+                            bottomThickness/2])
+                        cube([dCableHole,ccubeSize/2,hCableHole],center=true);
+                    } /* generate long cable holes */
+                } /* place inner cubes */
+            } /* for */
+        } /* translate all inner cubes */
+    } /* difference */
+} /* module */
+
+
+wClockCase(chamberElementsX=11, chamberElementsY=10,ccubeSize=14,borderThickness=2, dCableHole=2);
