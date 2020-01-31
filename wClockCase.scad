@@ -123,4 +123,9 @@ module wClockCase(chamberElementsX=10, chamberElementsY=10,
 } /* module */
 
 
-/* #wClockCase(chamberElementsX=11, chamberElementsY=10,ccubeSize=20,borderThickness=2, dCableHole=2); */
+/* #wClockCase(chamberElementsX=15,
+    chamberElementsY=20,
+    ccubeSize=10, squareShape=false,
+    useAbsLength=true, absoluteLengthX=250, absoluteLengthY=130,
+    borderThickness=2,
+    dCableHole=2); */

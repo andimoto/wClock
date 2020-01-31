@@ -15,7 +15,7 @@ grafixComp=1; //mm ; add 1 millimeter
 chamberElementsX=11; //letters in x direction
 chamberElementsY=10; //letters in y direction
 squareShape = true; //true to keep case in a square shape (not rectangular!)
-ccubeSize = 20; //mm /* size of the cube elements */
+ccubeSize = 13; //mm /* size of the cube elements */
 caseHight=10; //mm
 borderThickness=2; //mm
 bottomThickness=2; //mm ; keep this. It's enougth
@@ -30,7 +30,7 @@ dCableHole=2; //mm
 
 /* Passepartout */
 additionalBorder=false;  /* enable passepartout */
-additionalBorderLength=10; //mm /* passepartout */
+additionalBorderLength=50; //mm /* passepartout */
 
 /* translate([0,0,(caseHight*2)-bottomThickness]){
 wClockCase(chamberElementsX=11,
@@ -122,9 +122,10 @@ difference(){
             caseSizeY+addY+0.5,(caseHight*3)-bottomThickness+0.1]);
         }
     /* position of letters */
-    translate([ccubeSize-ccubeSize/3,
-        ((ccubeSize+borderThickness)*chamberElementsY)
-        +borderThickness/2,caseHight*3-bottomThickness])
+    translate([(ccubeSize-ccubeSize/3)+addX/2,
+        (((ccubeSize+borderThickness)*chamberElementsY)
+        +borderThickness/2)+addY/2,
+        caseHight*3-bottomThickness])
     #union(){
     for(i = [0:wClockLines-1],
         j = [0:wClockRows-1]){
