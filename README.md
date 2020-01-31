@@ -1,4 +1,5 @@
-This will be a scalable WordClock for 3D printing.
+This will be a scalable "WordClock" for 3D printing.
+By the way the parts also can be used to create an case with arrays or matrices, etc...
 
 **WORK IN PROGRESS!**
 This Model for OpenSCAD is not finished and has not been printed by me.
