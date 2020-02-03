@@ -87,7 +87,7 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
         + addY/2;
 
     echo("Shift in X Direction: ",borderShiftX);
-echo("Shift in Y Direction: ",borderShiftY);
+    echo("Shift in Y Direction: ",borderShiftY);
 
 
     translate([-(borderThickness+0.25),
@@ -101,10 +101,12 @@ echo("Shift in Y Direction: ",borderShiftY);
                     caseSizeY+addY+0.5,(caseHight*3)-bottomThickness+0.1]);
                 }
             /* position of letters */
-            translate([(ccubeSize-ccubeSize/5)+addX/2,
-                (((ccubeSize+borderThickness)*chamberElementsY)
-                +borderThickness)+addY/2,
-                caseHight*3-bottomThickness])
+                correctionX = -0.04;
+                correctionY = 1.01;
+            translate([(ccubeSize+ccubeSize*correctionX)+addX*0.6,
+                    (((ccubeSize+borderThickness)*chamberElementsY)
+                        +borderThickness)*correctionY+addY*0.6,
+                        caseHight*3-bottomThickness])
             union(){
             for(i = [0:wClockLines-1],
                 j = [0:wClockRows-1]){
@@ -113,7 +115,7 @@ echo("Shift in Y Direction: ",borderShiftY);
                     linear_extrude(height=bottomThickness+grafixComp)
                     text(wClockText[i][j],
                     font=ClockFont,
-                    size = ccubeSize*0.7,
+                    size = ccubeSize*0.6,
                     halign = "center",
                     valign = "center",
                     $fn = 10);
@@ -134,13 +136,13 @@ bottom=2;
 wClockText(chamberElementsX=X,
     chamberElementsY=Y,
     ccubeSize=cubeSize, squareShape=true,
-    useAbsLength=true, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
+    useAbsLength=false, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
     borderThickness=borderThick, bottomThickness=bottom);
 
-translate([0,0,-10]){
+translate([0,0,22]){
     #wClockCase(chamberElementsX=X,
             chamberElementsY=Y,
-            ccubeSize=cubeSize, caseHight=10, useAbsLength=true,
+            ccubeSize=cubeSize, caseHight=10, useAbsLength=false,
             absoluteLengthX=absLenX, absoluteLengthY=absLenY,
             borderThickness=borderThick, bottomThickness=bottom,
             dCableHole=2);
