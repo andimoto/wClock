@@ -1,10 +1,19 @@
-use <fonts/Beon-Regular.otf>
-use <fonts/AnitaSemiSquare3D.ttf>
+use <fonts/Archicoco/Archicoco.otf>
+use <fonts/kill_all_fonts/KillAllFonts.TTF>
+use <fonts/Marske.otf>
+use <fonts/major_shift.ttf>
+/* use <fonts/major_shift3D.ttf> */
+use <fonts/ruler_stencil/RulerStencilBold.ttf>
+use <fonts/ruler_stencil/RulerStencilHeavy.ttf>
 include <wClockCase.scad>
 
-ClockFontBeon="Beon:style=Bold";
-ClockFontAnita="Anita  Semi\\-square:style=Regular";
-ClockFont=ClockFontAnita;
+ClockFontMarske="Marsh:style=Stencil";
+ClockFontMajorShift="Major Snafu:style=Regular";
+ClockFontArchicoco="Archicoco:style=Regular";
+ClockFontKillfonts="Kill All Fonts:style=Regular";
+ClockFontRulerBold="Ruler Stencil:style=Fett";
+ClockFontRulerHeavy="Ruler Stencil Heavy:style=Standard";
+ClockFont=ClockFontMajorShift;
 
 grafixComp=1; //mm ; add 1 millimeter
 
@@ -101,19 +110,19 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
                     caseSizeY+addY+0.5,(caseHight*3)-bottomThickness+0.1]);
                 }
             /* position of letters */
-                correctionX = -0.04;
-                correctionY = 1.01;
+                correctionX = -0.37;
+                correctionY = 0.99;
             translate([(ccubeSize+ccubeSize*correctionX)+addX*0.6,
                     (((ccubeSize+borderThickness)*chamberElementsY)
                         +borderThickness)*correctionY+addY*0.6,
                         caseHight*3-bottomThickness])
             union(){
-            for(i = [0:wClockLines-1],
-                j = [0:wClockRows-1]){
-                #translate([j*(ccubeSize+borderThickness),
-                    -i*(ccubeSize+borderThickness),-grafixComp/2])
+            for(i = [0:wClockRows-1],
+                j = [0:wClockLines-1]){
+                #translate([i*(ccubeSize+borderThickness),
+                    -j*(ccubeSize+borderThickness),-grafixComp/2])
                     linear_extrude(height=bottomThickness+grafixComp)
-                    text(wClockText[i][j],
+                    text(wClockText[j][i],
                     font=ClockFont,
                     size = ccubeSize*0.6,
                     halign = "center",
@@ -127,22 +136,22 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
 
 X=11;
 Y=10;
-cubeSize=10;
-absLenX=150;
-absLenY=150;
+cubeSize=18;
+absLenX=250;
+absLenY=250;
 borderThick=2;
 bottom=2;
 
 wClockText(chamberElementsX=X,
     chamberElementsY=Y,
     ccubeSize=cubeSize, squareShape=true,
-    useAbsLength=false, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
+    useAbsLength=true, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
     borderThickness=borderThick, bottomThickness=bottom);
 
 translate([0,0,22]){
     #wClockCase(chamberElementsX=X,
             chamberElementsY=Y,
-            ccubeSize=cubeSize, caseHight=10, useAbsLength=false,
+            ccubeSize=cubeSize, caseHight=10, useAbsLength=true,
             absoluteLengthX=absLenX, absoluteLengthY=absLenY,
             borderThickness=borderThick, bottomThickness=bottom,
             dCableHole=2);
