@@ -2,6 +2,7 @@ use <fonts/Archicoco/Archicoco.otf>
 use <fonts/kill_all_fonts/KillAllFonts.TTF>
 use <fonts/Marske.otf>
 use <fonts/major_shift.ttf>
+use <fonts/major_shift3D.ttf>
 /* use <fonts/major_shift3D.ttf> */
 use <fonts/ruler_stencil/RulerStencilBold.ttf>
 use <fonts/ruler_stencil/RulerStencilHeavy.ttf>
@@ -9,11 +10,12 @@ include <wClockCase.scad>
 
 ClockFontMarske="Marsh:style=Stencil";
 ClockFontMajorShift="Major Snafu:style=Regular";
+ClockFontMajorShift3D="Major Snafu:style=3D";
 ClockFontArchicoco="Archicoco:style=Regular";
 ClockFontKillfonts="Kill All Fonts:style=Regular";
 ClockFontRulerBold="Ruler Stencil:style=Fett";
 ClockFontRulerHeavy="Ruler Stencil Heavy:style=Standard";
-ClockFont=ClockFontMajorShift;
+ClockFont=ClockFontMajorShift3D;
 
 grafixComp=1; //mm ; add 1 millimeter
 
@@ -110,11 +112,11 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
                     caseSizeY+addY+0.5,(caseHight*3)-bottomThickness+0.1]);
                 }
             /* position of letters */
-                correctionX = -0.37;
-                correctionY = 0.99;
-            translate([(ccubeSize+ccubeSize*correctionX)+addX*0.6,
+            correctionX=-3;
+            correctionY=1.2;
+            translate([(ccubeSize)+addX*0.6+correctionX,
                     (((ccubeSize+borderThickness)*chamberElementsY)
-                        +borderThickness)*correctionY+addY*0.6,
+                        +borderThickness)+addY*0.6+correctionY,
                         caseHight*3-bottomThickness])
             union(){
             for(i = [0:wClockRows-1],
@@ -124,7 +126,7 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
                     linear_extrude(height=bottomThickness+grafixComp)
                     text(wClockText[j][i],
                     font=ClockFont,
-                    size = ccubeSize*0.6,
+                    size = ccubeSize*0.7,
                     halign = "center",
                     valign = "center",
                     $fn = 10);
@@ -136,22 +138,23 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
 
 X=11;
 Y=10;
-cubeSize=18;
+cubeSize=13;
 absLenX=250;
 absLenY=250;
+absLen=false;
 borderThick=2;
 bottom=2;
 
 wClockText(chamberElementsX=X,
     chamberElementsY=Y,
     ccubeSize=cubeSize, squareShape=true,
-    useAbsLength=true, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
+    useAbsLength=absLen, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
     borderThickness=borderThick, bottomThickness=bottom);
 
-translate([0,0,22]){
+/*translate([0,0,22])*/{
     #wClockCase(chamberElementsX=X,
             chamberElementsY=Y,
-            ccubeSize=cubeSize, caseHight=10, useAbsLength=true,
+            ccubeSize=cubeSize, caseHight=10, useAbsLength=absLen,
             absoluteLengthX=absLenX, absoluteLengthY=absLenY,
             borderThickness=borderThick, bottomThickness=bottom,
             dCableHole=2);
