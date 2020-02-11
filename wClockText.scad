@@ -3,7 +3,7 @@ use <fonts/kill_all_fonts/KillAllFonts.TTF>
 use <fonts/Marske.otf>
 use <fonts/major_shift.ttf>
 use <fonts/major_shift3D.ttf>
-/* use <fonts/major_shift3D.ttf> */
+use <fonts/major_shift3D_02.ttf>
 use <fonts/ruler_stencil/RulerStencilBold.ttf>
 use <fonts/ruler_stencil/RulerStencilHeavy.ttf>
 include <wClockCase.scad>
@@ -11,11 +11,12 @@ include <wClockCase.scad>
 ClockFontMarske="Marsh:style=Stencil";
 ClockFontMajorShift="Major Snafu:style=Regular";
 ClockFontMajorShift3D="Major Snafu:style=3D";
+ClockFontMajorShift3D01="Major Snafu:style=3D\\_02";
 ClockFontArchicoco="Archicoco:style=Regular";
 ClockFontKillfonts="Kill All Fonts:style=Regular";
 ClockFontRulerBold="Ruler Stencil:style=Fett";
 ClockFontRulerHeavy="Ruler Stencil Heavy:style=Standard";
-ClockFont=ClockFontMajorShift3D;
+ClockFont=ClockFontMajorShift3D01;
 
 grafixComp=1; //mm ; add 1 millimeter
 
@@ -152,12 +153,12 @@ wClockText(chamberElementsX=X,
     borderThickness=borderThick, bottomThickness=bottom);
 
 /*translate([0,0,22])*/{
-    #wClockCase(chamberElementsX=X,
+    /* #wClockCase(chamberElementsX=X,
             chamberElementsY=Y,
             ccubeSize=cubeSize, caseHight=10, useAbsLength=absLen,
             absoluteLengthX=absLenX, absoluteLengthY=absLenY,
             borderThickness=borderThick, bottomThickness=bottom,
-            dCableHole=2);
+            dCableHole=2); */
     }
 
     /* caseHight=10, borderThickness=2, bottomThickness=2,
