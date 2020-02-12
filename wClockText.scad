@@ -1,22 +1,19 @@
 use <fonts/Archicoco/Archicoco.otf>
 use <fonts/kill_all_fonts/KillAllFonts.TTF>
 use <fonts/Marske.otf>
-use <fonts/major_shift.ttf>
-use <fonts/major_shift3D.ttf>
-use <fonts/major_shift3D_02.ttf>
+use <fonts/major_shift3D_03.ttf>
 use <fonts/ruler_stencil/RulerStencilBold.ttf>
 use <fonts/ruler_stencil/RulerStencilHeavy.ttf>
+
 include <wClockCase.scad>
 
 ClockFontMarske="Marsh:style=Stencil";
-ClockFontMajorShift="Major Snafu:style=Regular";
-ClockFontMajorShift3D="Major Snafu:style=3D";
-ClockFontMajorShift3D01="Major Snafu:style=3D\\_02";
+ClockFontMajorShift3D02="Major Snafu:style=3D\\_03";
 ClockFontArchicoco="Archicoco:style=Regular";
 ClockFontKillfonts="Kill All Fonts:style=Regular";
 ClockFontRulerBold="Ruler Stencil:style=Fett";
 ClockFontRulerHeavy="Ruler Stencil Heavy:style=Standard";
-ClockFont=ClockFontMajorShift3D01;
+ClockFont=ClockFontMajorShift3D02;
 
 grafixComp=1; //mm ; add 1 millimeter
 
@@ -122,7 +119,7 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
             union(){
             for(i = [0:wClockRows-1],
                 j = [0:wClockLines-1]){
-                #translate([i*(ccubeSize+borderThickness),
+                translate([i*(ccubeSize+borderThickness),
                     -j*(ccubeSize+borderThickness),-grafixComp/2])
                     linear_extrude(height=bottomThickness+grafixComp)
                     text(wClockText[j][i],
@@ -130,7 +127,7 @@ module wClockText(chamberElementsX=11, chamberElementsY=10,
                     size = ccubeSize*0.7,
                     halign = "center",
                     valign = "center",
-                    $fn = 10);
+                    $fn = 30);
                 }
             }
         }
@@ -145,22 +142,27 @@ absLenY=250;
 absLen=false;
 borderThick=2;
 bottom=2;
+difference(){
+    union(){
+    #wClockText(chamberElementsX=X,
+        chamberElementsY=Y,
+        ccubeSize=cubeSize, squareShape=true,
+        useAbsLength=absLen, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
+        borderThickness=borderThick, bottomThickness=bottom);
 
-wClockText(chamberElementsX=X,
-    chamberElementsY=Y,
-    ccubeSize=cubeSize, squareShape=true,
-    useAbsLength=absLen, absoluteLengthX=absLenX, absoluteLengthY=absLenY,
-    borderThickness=borderThick, bottomThickness=bottom);
-
-/*translate([0,0,22])*/{
-    /* #wClockCase(chamberElementsX=X,
-            chamberElementsY=Y,
-            ccubeSize=cubeSize, caseHight=10, useAbsLength=absLen,
-            absoluteLengthX=absLenX, absoluteLengthY=absLenY,
-            borderThickness=borderThick, bottomThickness=bottom,
-            dCableHole=2); */
+    translate([0,0,17.8]){
+        #wClockCase(chamberElementsX=X,
+                chamberElementsY=Y,
+                ccubeSize=cubeSize, caseHight=10, useAbsLength=absLen,
+                absoluteLengthX=absLenX, absoluteLengthY=absLenY,
+                borderThickness=borderThick, bottomThickness=bottom,
+                dCableHole=2);
+        }
     }
-
+    translate([-10,-10,-10]){
+      cube([200,100,50]);
+    }
+}
     /* caseHight=10, borderThickness=2, bottomThickness=2,
     useAbsLength=false, absoluteLengthX=180, absoluteLengthY=180,
     additionalBorder=false, additionalBorderLength=10 */
