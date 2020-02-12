@@ -3,28 +3,8 @@ $fn=30;
 /* debug variables */
 grafixComp=1; //mm ; add 1 millimeter
 
-/* Variables */
-//chamberElementsX=11; //letters in x direction
-//chamberElementsY=10; //letters in y direction
-//squareShape = true; //true to keep case in a square shape (not rectangular!)
-//ccubeSize = 13; //mm /* size of the cube elements */
-//caseHight=7; //mm
-//borderThickness=2; //mm
-//bottomThickness=2; //mm ; keep this. It's enougth
 
-//useAbsLength=true;
-//absoluteLengthX=170; //mm
-//absoluteLengthY=170; //mm
-
-//cableHole=true; // with cable holes
-//dCableHole=2; //mm
-
-
-/* Passepartout */
-//additionalBorder=false;  /* enable passepartout */
-//additionalBorderLength=10; //mm /* passepartout */
-
-module wClockCase(chamberElementsX=10, chamberElementsY=10,
+module wClockLedCase(chamberElementsX=10, chamberElementsY=10,
         ccubeSize=10, squareShape=true,
         caseHight=10, borderThickness=2, bottomThickness=2,
         useAbsLength=false, absoluteLengthX=180, absoluteLengthY=180,
