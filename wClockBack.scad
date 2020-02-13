@@ -83,6 +83,23 @@ borderShiftY= (caseSizeY -
             borderThickness+10,bottomThickness])
             cube([caseSizeX+1,
             caseSizeY-20,cubeHight-ledCaseHight+0.8]);
+
+            /* Buttons */
+        translate([(caseSizeX+addX)/3,
+            (caseSizeY+addY)-((caseSizeY+addY)/10)])
+        cylinder(r=10.5, h=5, center=true);
+        translate([(caseSizeX+addX)-(caseSizeX+addX)/3,
+            (caseSizeY+addY)-((caseSizeY+addY)/10)])
+        cylinder(r=10.5, h=5, center=true);
+
+        /* hole for mini/micro usb */
+        translate([(caseSizeX+addX)/2,((caseSizeY+addY)/10),-1])
+        cube([12,10,6],center=true);
+
+        /* wallmount */
+        translate([(caseSizeX+addX)/2,
+            (caseSizeY+addY)-((caseSizeY+addY)/10),-1])
+        cube([3,3,6],center=true);
         }
     } /* backplate */
 } /* module */

@@ -3,7 +3,7 @@ include <wClockTextCase.scad>
 include <wClockBack.scad>
 
 X=11;
-Y=10;
+Y=11;
 cubeSize=14;
 absLenX=250;
 absLenY=250;
@@ -14,7 +14,7 @@ caseHight=40;
 ledCaseHight=10;
 
 textCorrectionX=-3;
-textCorrectionY=1.2;
+textCorrectionY=-7;
 
 difference(){
 union(){
@@ -41,5 +41,5 @@ union(){
                 dCableHole=2);
         }
 }/*union*/
-translate([-10,-10,-10]){cube([200,10,60]);}
+/* translate([-10,-10,-10]){cube([200,20,60]);} */
 }

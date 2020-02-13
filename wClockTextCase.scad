@@ -24,7 +24,7 @@ module wClockTextCase(chamberElementsX=11, chamberElementsY=10,
         useAbsLength=false, absoluteLengthX=180, absoluteLengthY=180,
         additionalBorder=false, additionalBorderLength=10){
 
-    wClockLines=10;
+    wClockLines=11;
     wClockRows=11;
     wClockText=[
         ["E","S","K","I","S","T","L","F","Ü","N","F"],
@@ -36,7 +36,8 @@ module wClockTextCase(chamberElementsX=11, chamberElementsY=10,
         ["K","D","R","E","I","R","H","F","Ü","N","F"],
         ["E","L","F","N","E","U","N","V","I","E","R"],
         ["W","A","C","H","T","Z","E","H","N","R","S"],
-        ["B","S","E","C","H","S","F","M","U","H","R"]
+        ["B","S","E","C","H","S","F","M","U","H","R"],
+        ["","","\u25CF","","\u25CF","","\u25CF","","\u25CF","",""]
     ];
 
     hCableHole=bottomThickness+grafixComp;
@@ -107,7 +108,7 @@ module wClockTextCase(chamberElementsX=11, chamberElementsY=10,
                     caseSizeY+addY+0.5,(caseHight)-bottomThickness+0.1]);
                 }
             /* position of letters */
-            
+
             translate([(ccubeSize)+addX*0.6+correctionX,
                     (((ccubeSize+borderThickness)*chamberElementsY)
                         +borderThickness)+addY*0.6+correctionY,
