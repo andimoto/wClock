@@ -64,7 +64,7 @@ borderShiftY= (caseSizeY -
         -(borderThickness+0.25),0]){
     difference(){
     union(){
-        color("green") cube([caseSizeX+addX+borderThickness*2+0.5,
+        cube([caseSizeX+addX+borderThickness*2+0.5,
             caseSizeY+addY+borderThickness*2+0.5,bottomThickness]);
 
         translate([borderThickness+0.25,
@@ -92,13 +92,17 @@ borderShiftY= (caseSizeY -
             (caseSizeY+addY)-((caseSizeY+addY)/10)])
         cylinder(r=10.5, h=5, center=true);
 
+        translate([(caseSizeX+addX)/2,
+            (caseSizeY+addY)-((caseSizeY+addY)/4)])
+        cylinder(r=10.5, h=5, center=true);
+
         /* hole for mini/micro usb */
         translate([(caseSizeX+addX)/2,((caseSizeY+addY)/10),-1])
         cube([12,10,6],center=true);
 
         /* wallmount */
         translate([(caseSizeX+addX)/2,
-            (caseSizeY+addY)-((caseSizeY+addY)/10),-1])
+            (caseSizeY+addY)-((caseSizeY+addY)/20),-1])
         cube([3,3,6],center=true);
         }
     } /* backplate */
