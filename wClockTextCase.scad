@@ -22,7 +22,8 @@ module wClockTextCase(chamberElementsX=11, chamberElementsY=10,
         correctionY=0,
         caseHight=10, borderThickness=2, bottomThickness=2,
         useAbsLength=false, absoluteLengthX=180, absoluteLengthY=180,
-        additionalBorder=false, additionalBorderLength=10){
+        additionalBorder=false, additionalBorderLength=10,
+        screws=true, screwHight=10){
 
     wClockLines=11;
     wClockRows=11;
@@ -96,38 +97,49 @@ module wClockTextCase(chamberElementsX=11, chamberElementsY=10,
     echo("Shift in X Direction: ",borderShiftX);
     echo("Shift in Y Direction: ",borderShiftY);
 
+edgePillar=10;
 
-    translate([-(borderThickness+0.25),
-        -(borderThickness+0.25),borderThickness]){
-        difference(){
-            cube([caseSizeX+addX+borderThickness*2+0.5,
-                caseSizeY+addY+borderThickness*2+0.5,caseHight]);
-            translate([borderThickness,
-                borderThickness,-0.1]){
-                cube([caseSizeX+addX+0.5,
-                    caseSizeY+addY+0.5,(caseHight)-bottomThickness+0.1]);
-                }
-            /* position of letters */
 
-            translate([(ccubeSize)+addX*0.6+correctionX,
-                    (((ccubeSize+borderThickness)*chamberElementsY)
-                        +borderThickness)+addY*0.6+correctionY,
-                        caseHight-bottomThickness])
-            union(){
-            for(i = [0:wClockRows-1],
-                j = [0:wClockLines-1]){
-                translate([i*(ccubeSize+borderThickness),
-                    -j*(ccubeSize+borderThickness),-grafixComp/2])
-                    linear_extrude(height=bottomThickness+grafixComp)
-                    text(wClockText[j][i],
-                    font=ClockFont,
-                    size = ccubeSize*0.7,
-                    halign = "center",
-                    valign = "center",
-                    $fn = 30);
-                } /* for */
-            } /* text union */
-        } /* case - inner case */
-    } /* translate complete case */
+difference(){
+    cube([caseSizeX+addX+borderThickness*2+0.5,
+        caseSizeY+addY+borderThickness*2+0.5,caseHight]);
+    translate([borderThickness,
+        borderThickness,-0.1]){
+        cube([caseSizeX+addX+0.5,
+            caseSizeY+addY+0.5,(caseHight)-bottomThickness+0.1]);
+        }
+
+    /* holes for case screws */
+    rotate([0,90,0])
+    translate([-screwHight,edgePillar/2+2.25,0])
+    cylinder(r=1.6,h=caseSizeX+addX+borderThickness*2+0.5);
+
+    rotate([0,90,0])
+    translate([-screwHight,
+      caseSizeX-edgePillar+
+      edgePillar/2+2.25,
+      0])
+    cylinder(r=1.6,h=caseSizeX+addX+borderThickness*2+0.5);
+
+    /* position of letters */
+    translate([(ccubeSize)+addX*0.6+correctionX,
+            (((ccubeSize+borderThickness)*chamberElementsY)
+                +borderThickness)+addY*0.6+correctionY,
+                caseHight-bottomThickness])
+    union(){
+    for(i = [0:wClockRows-1],
+        j = [0:wClockLines-1]){
+        translate([i*(ccubeSize+borderThickness),
+            -j*(ccubeSize+borderThickness),-grafixComp/2])
+            linear_extrude(height=bottomThickness+grafixComp)
+            text(wClockText[j][i],
+            font=ClockFont,
+            size = ccubeSize*0.7,
+            halign = "center",
+            valign = "center",
+            $fn = 30);
+        } /* for */
+    } /* text union */
+} /* case - inner case */
 
 } /* module */
